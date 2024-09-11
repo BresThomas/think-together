@@ -6,8 +6,7 @@ import { getUser } from "@/lib/database/getUser";
 // More info: https://next-auth.js.org/configuration/options#secret
 // `create-liveblocks-app` generates a value for you, but there's a
 // fallback value in case you don't use the installer.
-export const NEXTAUTH_SECRET =
-  process.env.NEXTAUTH_SECRET || "p49RDzU36fidumaF7imGnzyhRSPWoffNjDOleU77SM4=";
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 
 export const {
   handlers: { GET, POST },

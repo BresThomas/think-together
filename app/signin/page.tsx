@@ -14,6 +14,7 @@ export default async function SignInPage() {
   }
 
   const providers = await getProviders();
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
