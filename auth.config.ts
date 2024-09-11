@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUser } from "@/lib/database";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import Auth0Provider from "next-auth/providers/auth0";
 
 export const authConfig: NextAuthConfig = {
@@ -39,18 +40,25 @@ export const authConfig: NextAuthConfig = {
     // }),
 
     // Use GitHub authentication    
-    GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    // GithubProvider({
+    //   clientId: process.env.GITHUB_CLIENT_ID as string,
+    //   clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    // }),
+
+    // use Google authentication
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
 
     // Use Auth0 authentication    
-    Auth0Provider({
-      clientId: process.env.AUTH0_CLIENT_ID as string,
-      clientSecret: process.env.AUTH0_CLIENT_SECRET as string,
-      issuer: process.env.AUTH0_ISSUER_BASE_URL,
-    }),
+    // Auth0Provider({
+    //   clientId: process.env.AUTH0_CLIENT_ID as string,
+    //   clientSecret: process.env.AUTH0_CLIENT_SECRET as string,
+    //   issuer: process.env.AUTH0_ISSUER_BASE_URL,
+    // }),
 
     // ...add more providers here
   ],
+
 };

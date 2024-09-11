@@ -12,7 +12,7 @@ import "../styles/text-editor-comments.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Liveblocks Starter Kit",
+  title: "ThinkTogether",
 };
 
 export default async function RootLayout({
