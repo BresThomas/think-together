@@ -42,12 +42,12 @@ export function ThreadList({ editor }: Props) {
 function NoComments() {
   return (
     <div className={styles.noComments}>
-      <div className={styles.noCommentsHeader}>No comments yet</div>
+      <div className={styles.noCommentsHeader}>Pas encore de commentaires</div>
       <p>
         <span className={styles.noCommentsButton}>
           <CommentIcon />
         </span>
-        Create a comment by selecting text and pressing the comment button.
+        Créez un commentaire en sélectionnant du texte et en appuyant sur le bouton de commentaire.
       </p>
     </div>
   );

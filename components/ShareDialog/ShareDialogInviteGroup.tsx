@@ -30,7 +30,7 @@ export function ShareDialogInviteGroup({
   const [isInviteLoading, setInviteLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  // Add a group to the room
+  // Ajouter un groupe au document
   async function handleAddDocumentGroup(id: DocumentGroup["id"]) {
     setErrorMessage(undefined);
     setInviteLoading(true);
@@ -79,7 +79,7 @@ export function ShareDialogInviteGroup({
                   value: groupId,
                   title: capitalize(groupId),
                 }))}
-                placeholder="Choose a group…"
+                placeholder="Choisissez un groupe…"
                 required
                 disabled={isInviteLoading}
               />
@@ -88,12 +88,12 @@ export function ShareDialogInviteGroup({
                 icon={isInviteLoading ? <Spinner /> : <PlusIcon />}
                 disabled={isInviteLoading}
               >
-                Invite
+                Inviter
               </Button>
             </form>
           ) : (
             <div className={clsx(styles.error, styles.inviteFormMessage)}>
-              All of your groups have already been added.
+              Tous vos groupes ont déjà été ajoutés.
             </div>
           )}
           {errorMessage && (
@@ -104,7 +104,7 @@ export function ShareDialogInviteGroup({
         </>
       ) : (
         <div className={styles.error}>
-          You need full access to invite groups.
+          Vous avez besoin d'un accès complet pour inviter des groupes.
         </div>
       )}
     </div>

@@ -18,14 +18,14 @@ type Props = {
 };
 
 /**
- * Update Group Access
+ * Mettre à jour l'accès du groupe
  *
- * Add a group to a given document with their groupId
- * Uses custom API endpoint
+ * Ajouter un groupe à un document donné avec leur groupId
+ * Utilise un point de terminaison API personnalisé
  *
- * @param groupId - The id of the group
- * @param documentId - The document id
- * @param access - The access level of the user
+ * @param groupId - L'identifiant du groupe
+ * @param documentId - L'identifiant du document
+ * @param access - Le niveau d'accès de l'utilisateur
  */
 export async function updateGroupAccess({
   groupId,
@@ -36,7 +36,7 @@ export async function updateGroupAccess({
   let room;
   let group;
   try {
-    // Get session and room
+    // Obtenir la session et la salle
     const result = await Promise.all([
       auth(),
       liveblocks.getRoom(documentId),
@@ -50,24 +50,24 @@ export async function updateGroupAccess({
     return {
       error: {
         code: 500,
-        message: "Error fetching document",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération du document",
+        suggestion: "Actualisez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifier que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to remove a user",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour supprimer un utilisateur",
       },
     };
   }
 
-  // Check current logged-in user has edit access to the room
+  // Vérifier que l'utilisateur connecté a un accès d'édition à la salle
   if (
     !userAllowedInRoom({
       accessAllowed: "write",
@@ -80,35 +80,35 @@ export async function updateGroupAccess({
     return {
       error: {
         code: 403,
-        message: "Not allowed access",
-        suggestion: "Check that you've been given permission to the document",
+        message: "Accès non autorisé",
+        suggestion: "Vérifiez que vous avez reçu la permission pour le document",
       },
     };
   }
 
-  // Check the room `documentId` exists
+  // Vérifier que la salle `documentId` existe
   if (!room) {
     return {
       error: {
         code: 404,
-        message: "Document not found",
-        suggestion: "Check that you're on the correct page",
+        message: "Document non trouvé",
+        suggestion: "Vérifiez que vous êtes sur la bonne page",
       },
     };
   }
 
-  // Check group exists in system
+  // Vérifier que le groupe existe dans le système
   if (!group) {
     return {
       error: {
         code: 400,
-        message: "Group does not exist",
-        suggestion: `Check that that group ${groupId} exists in the system`,
+        message: "Le groupe n'existe pas",
+        suggestion: `Vérifiez que le groupe ${groupId} existe dans le système`,
       },
     };
   }
 
-  // If room exists, create groupsAccesses element for new collaborator with passed access level
+  // Si la salle existe, créer un élément groupsAccesses pour le nouveau collaborateur avec le niveau d'accès passé
   const groupAccess = documentAccessToRoomAccesses(access);
   const groupsAccesses: Record<
     string,
@@ -117,13 +117,13 @@ export async function updateGroupAccess({
     [groupId]: groupAccess.length === 0 ? null : groupAccess,
   };
 
-  // If draft and adding a group, remove drafts group
+  // Si brouillon et ajout d'un groupe, supprimer le groupe de brouillons
   const draftGroupId = getDraftsGroupName(session.user.info.id);
   if (groupId !== draftGroupId && draftGroupId in room.groupsAccesses) {
     groupsAccesses[draftGroupId] = null;
   }
 
-  // Update the room with the new collaborators
+  // Mettre à jour la salle avec les nouveaux collaborateurs
   let updatedRoom;
   try {
     updatedRoom = await liveblocks.updateRoom(documentId, {
@@ -133,8 +133,8 @@ export async function updateGroupAccess({
     return {
       error: {
         code: 401,
-        message: "Can't edit group in room",
-        suggestion: "Please refresh the page and try again",
+        message: "Impossible de modifier le groupe dans la salle",
+        suggestion: "Veuillez actualiser la page et réessayer",
       },
     };
   }
@@ -143,13 +143,13 @@ export async function updateGroupAccess({
     return {
       error: {
         code: 404,
-        message: "Updated room not found",
-        suggestion: "Contact an administrator",
+        message: "Salle mise à jour non trouvée",
+        suggestion: "Contactez un administrateur",
       },
     };
   }
 
-  // If successful, convert room to a list of groups and send
+  // Si réussi, convertir la salle en une liste de groupes et envoyer
   const result: DocumentGroup[] = await buildDocumentGroups(updatedRoom);
   return { data: result };
 }

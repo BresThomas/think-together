@@ -36,12 +36,18 @@ export default async function Index() {
       <Container className={styles.section}>
         <div className={styles.heroInfo}>
           <h1 className={styles.heroTitle}>
-            Kickstart your collaborative&nbsp;app
+          Collaborez et innovez ensemble.
           </h1>
           <p className={styles.heroLead}>
-            Use the Liveblocks Starter Kit to build your document-based
-            collaborative app in&nbsp;minutes.
+          ThinkTogether est une plateforme de collaboration intuitive qui facilite le brainstorming en équipe. Travaillez sur vos idées en temps réel, où que vous soyez.
           </p>
+          <div className={styles.heroImage}>
+            <img
+              src="../image.png"
+              alt="Illustration de ThinkTogether"
+              className={styles.heroImageElement}
+            />
+          </div>
         </div>
         <div className={styles.heroActions}>
           <form
@@ -50,73 +56,15 @@ export default async function Index() {
               await signIn();
             }}
           >
-            <Button icon={<SignInIcon />}>Sign in</Button>
+            <Button icon={<SignInIcon />}>Se connecter</Button>
           </form>
           <LinkButton
             href="https://liveblocks.io/docs/guides/nextjs-starter-kit"
             target="_blank"
             variant="secondary"
           >
-            Learn more
+            En savoir plus
           </LinkButton>
-        </div>
-      </Container>
-      <Container className={styles.section}>
-        <h2 className={styles.sectionTitle}>Features</h2>
-        <div className={styles.featuresGrid}>
-          <Feature
-            description={
-              <>
-                A collaborative whiteboard app with included share menu,
-                documents listing, users, groups, permissions, and more.
-              </>
-            }
-            title="Liveblocks"
-          />
-          <Feature
-            description={
-              <>
-                Best practices followed, using a mixture of SSR and custom API
-                endpoints. Modify documents from both client and server.
-              </>
-            }
-            title="Next.js"
-          />
-          <Feature
-            description={
-              <>
-                Adjust our reusable interface & design system to fit your needs.
-              </>
-            }
-            title="User Interface"
-          />
-          <Feature
-            description={
-              <>
-                All custom client and server functions are fully typed, and easy
-                to update.
-              </>
-            }
-            title="TypeScript"
-          />
-          <Feature
-            description={
-              <>
-                Complete authentication, compatible with any NextAuth provider,
-                including GitHub, Google, Auth0, and many more.
-              </>
-            }
-            title="NextAuth.js"
-          />
-          <Feature
-            description={
-              <>
-                See data update live using the SWR (state-while-revalidate)
-                library.
-              </>
-            }
-            title="SWR"
-          />
         </div>
       </Container>
     </MarketingLayout>

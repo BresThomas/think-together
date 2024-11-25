@@ -1,20 +1,20 @@
 import { Group } from "@/types";
 
 /**
- * This array simulates a database consisting of a list of groups.
- * Assign users to groups in /data/users.ts
+ * Ce tableau simule une base de données composée d'une liste de groupes.
+ * Assignez des utilisateurs aux groupes dans /data/users.ts
  */
 export const groups: Group[] = [
   {
     id: "product",
-    name: "Product",
+    name: "Produit",
   },
   {
     id: "engineering",
-    name: "Engineering",
+    name: "Ingénierie",
   },
   {
     id: "design",
-    name: "Design",
+    name: "Conception",
   },
 ];

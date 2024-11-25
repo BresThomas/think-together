@@ -32,7 +32,7 @@ export function ShareDialog({ children, ...props }: Props) {
     DocumentAccess.NONE
   );
 
-  // Get a list of users attached to the document (+ their info)
+  // Obtenir une liste d'utilisateurs attachés au document (+ leurs informations)
   const {
     data: users,
     mutate: revalidateUsers,
@@ -41,7 +41,7 @@ export function ShareDialog({ children, ...props }: Props) {
     refreshInterval: 0,
   });
 
-  // Get a list of groups attached to the document (+ their info)
+  // Obtenir une liste de groupes attachés au document (+ leurs informations)
   const {
     data: groups,
     mutate: revalidateGroups,
@@ -50,7 +50,7 @@ export function ShareDialog({ children, ...props }: Props) {
     refreshInterval: 0,
   });
 
-  // Get the current document
+  // Obtenir le document actuel
   const {
     data: document,
     error: defaultAccessError,
@@ -59,17 +59,17 @@ export function ShareDialog({ children, ...props }: Props) {
     refreshInterval: 0,
   });
 
-  // Get default access value from document, or the default value from the property
+  // Obtenir la valeur d'accès par défaut du document, ou la valeur par défaut de la propriété
   const defaultAccess = document
     ? document.accesses.default
     : documentAccesses.default;
 
-  // If you have no access to this room, refresh
+  // Si vous n'avez pas accès à cette salle, actualisez
   if (defaultAccessError && defaultAccessError.code === 403) {
     window.location.reload();
   }
 
-  // Refresh the current user's access level
+  // Actualiser le niveau d'accès de l'utilisateur actuel
   const revalidateCurrentUserAccess = useCallback(() => {
     if (!document) {
       return;
@@ -81,13 +81,13 @@ export function ShareDialog({ children, ...props }: Props) {
       groupIds: session?.user?.info.groupIds ?? [],
     });
 
-    // Reload if current user has no access (will show error page)
+    // Recharger si l'utilisateur actuel n'a pas accès (affichera la page d'erreur)
     if (accessLevel === DocumentAccess.NONE) {
       window.location.reload();
       return;
     }
 
-    // Reload app if current user swapping between READONLY and EDIT/FULL (will reconnect to app with new access level)
+    // Recharger l'application si l'utilisateur actuel passe de LECTURE SEULE à ÉDITION/COMPLET (se reconnectera à l'application avec le nouveau niveau d'accès)
     const accessChanges = new Set([currentUserAccess, accessLevel]);
     if (
       accessChanges.has(DocumentAccess.READONLY) &&
@@ -105,7 +105,7 @@ export function ShareDialog({ children, ...props }: Props) {
     revalidateCurrentUserAccess();
   }, [document, revalidateCurrentUserAccess, session]);
 
-  // Revalidate all access data
+  // Réactualiser toutes les données d'accès
   function revalidateAll() {
     revalidateUsers();
     revalidateGroups();
@@ -113,10 +113,10 @@ export function ShareDialog({ children, ...props }: Props) {
     revalidateCurrentUserAccess();
   }
 
-  // Broadcasts are used for sending share dialog updates below
+  // Les diffusions sont utilisées pour envoyer les mises à jour de la boîte de dialogue de partage ci-dessous
   const broadcast = useBroadcastEvent();
 
-  // If a share dialog update has been received, refresh data
+  // Si une mise à jour de la boîte de dialogue de partage a été reçue, actualiser les données
   useEventListener(({ event }) => {
     if (event.type === "SHARE_DIALOG_UPDATE") {
       revalidateAll();
@@ -132,13 +132,13 @@ export function ShareDialog({ children, ...props }: Props) {
               <Tabs.Trigger className={styles.dialogTab} value="users">
                 <span className={styles.dialogTabLabel}>
                   <UserIcon className={styles.dialogTabIcon} />
-                  <span>Users</span>
+                  <span>Utilisateurs</span>
                 </span>
               </Tabs.Trigger>
               <Tabs.Trigger className={styles.dialogTab} value="groups">
                 <span className={styles.dialogTabLabel}>
                   <UsersIcon className={styles.dialogTabIcon} />
-                  <span>Groups</span>
+                  <span>Groupes</span>
                 </span>
               </Tabs.Trigger>
             </Tabs.List>
@@ -203,7 +203,7 @@ export function ShareDialog({ children, ...props }: Props) {
           />
         </div>
       }
-      title="Share document"
+      title="Partager le document"
       {...props}
     >
       {children}

@@ -92,7 +92,7 @@ export function DocumentRow({
             ) : null}
           </span>
           <span className={styles.documentDate}>
-            Edited {formatDistanceToNow(date)} ago
+            Modifié {formatDistanceToNow(date)} il y a
           </span>
         </div>
         {others && (
@@ -121,7 +121,7 @@ export function DocumentRow({
                   onOpenChange={handleDeleteDialogOpenChange}
                 >
                   <Button icon={<DeleteIcon />} variant="subtle">
-                    Delete
+                    Supprimer
                   </Button>
                 </DocumentDeleteDialog>
               </div>

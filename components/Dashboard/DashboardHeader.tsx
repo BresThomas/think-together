@@ -56,7 +56,7 @@ export function DashboardHeader({
                     icon={<SignOutIcon />}
                     onClick={() => signOut()}
                   >
-                    Sign out
+                    Se déconnecter
                   </Button>
                 </div>
               </div>

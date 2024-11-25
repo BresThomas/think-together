@@ -11,14 +11,14 @@ interface Props extends ComponentProps<"div"> {
 
 export function NextAuthLogin({ providers }: Props) {
   if (!providers) {
-    return <h4 className={styles.error}>No NextAuth providers enabled</h4>;
+    return <h4 className={styles.error}>Aucun fournisseur NextAuth activé</h4>;
   }
 
   return (
     <div className={styles.actions}>
       {Object.entries(providers).map(([id, name]) => (
         <Button key={name} onClick={() => signIn(id)}>
-          Sign in with {name}
+          Se connecter avec {name}
         </Button>
       ))}
     </div>

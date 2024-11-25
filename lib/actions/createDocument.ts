@@ -24,18 +24,18 @@ type Props = {
 };
 
 /**
- * Create Document
+ * Créer un document
  *
- * Create a new document, with a specified name and type, from userId and groupId
- * Uses custom API endpoint
+ * Crée un nouveau document, avec un nom et un type spécifiés, à partir de userId et groupId
+ * Utilise un point de terminaison API personnalisé
  *
- * @param options - Document creation options
- * @param options.name - The name of the new document
- * @param options.type - The type of the new document e.g. "canvas"
- * @param options.groupIds - The new document's initial groups
- * @param options.userId - The user creating the document
- * @param options.draft - If the document is a draft (no public or group access, but can invite)
- * @param redirectToDocument - Redirect to the newly created document on success
+ * @param options - Options de création de document
+ * @param options.name - Le nom du nouveau document
+ * @param options.type - Le type du nouveau document, par exemple "canvas"
+ * @param options.groupIds - Les groupes initiaux du nouveau document
+ * @param options.userId - L'utilisateur créant le document
+ * @param options.draft - Si le document est un brouillon (pas d'accès public ou de groupe, mais peut inviter)
+ * @param redirectToDocument - Rediriger vers le document nouvellement créé en cas de succès
  */
 export async function createDocument(
   { name, type, groupIds, userId, draft = false }: Props,
@@ -47,21 +47,21 @@ export async function createDocument(
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to create a new document",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour créer un nouveau document",
       },
     };
   }
 
-  // Custom metadata for our document
+  // Métadonnées personnalisées pour notre document
   const metadata: DocumentRoomMetadata = {
     name: name,
     type: type,
     owner: userId,
-    draft: draft ? "yes" : "no",
+    draft: draft ? "oui" : "non",
   };
 
-  // Give creator of document full access
+  // Donner au créateur du document un accès complet
   const usersAccesses: RoomAccesses = {
     [userId]: ["room:write"],
   };
@@ -69,10 +69,10 @@ export async function createDocument(
   const groupsAccesses: RoomAccesses = {};
 
   if (draft) {
-    // If draft, only add draft group access
+    // Si brouillon, ajouter uniquement l'accès au groupe de brouillons
     groupsAccesses[getDraftsGroupName(userId)] = ["room:write"];
   } else if (groupIds) {
-    // If groupIds sent, limit access to these groups
+    // Si groupIds envoyé, limiter l'accès à ces groupes
     groupIds.forEach((groupId: string) => {
       groupsAccesses[groupId] = ["room:write"];
     });
@@ -92,8 +92,8 @@ export async function createDocument(
     return {
       error: {
         code: 401,
-        message: "Can't create room",
-        suggestion: "Please refresh the page and try again",
+        message: "Impossible de créer la salle",
+        suggestion: "Veuillez rafraîchir la page et réessayer",
       },
     };
   }
@@ -101,7 +101,7 @@ export async function createDocument(
   const document: Document = buildDocument(room);
 
   if (redirectToDocument) {
-    // Has to return `undefined`
+    // Doit retourner `undefined`
     return redirect(DOCUMENT_URL(document.type, document.id));
   }
 

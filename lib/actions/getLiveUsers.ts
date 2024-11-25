@@ -5,19 +5,19 @@ import { auth } from "@/auth";
 import { liveblocks } from "@/liveblocks.server.config";
 import { Document } from "@/types";
 
-type LiveUserList = { documentId: Document["id"]; users: RoomUser[] };
+type ListeUtilisateursEnLigne = { documentId: Document["id"]; users: RoomUser[] };
 
 type Props = {
   documentIds: Document["id"][];
 };
 
 /**
- * Get Live Users
+ * Obtenir les utilisateurs en ligne
  *
- * Get the online users in the documents passed
- * Uses custom API endpoint
+ * Obtenir les utilisateurs en ligne dans les documents passés
+ * Utilise un point de terminaison API personnalisé
  *
- * @param documentIds - An array of document ids
+ * @param documentIds - Un tableau d'identifiants de documents
  */
 export async function getLiveUsers({ documentIds }: Props) {
   const promises: ReturnType<typeof liveblocks.getActiveUsers>[] = [];
@@ -27,38 +27,38 @@ export async function getLiveUsers({ documentIds }: Props) {
   }
 
   let session;
-  let currentActiveUsers = [];
+  let utilisateursActifsActuels = [];
   try {
-    // Get session and rooms
+    // Obtenir la session et les salles
     const [sess, ...roomUsers] = await Promise.all([auth(), ...promises]);
     session = sess;
-    currentActiveUsers = roomUsers;
+    utilisateursActifsActuels = roomUsers;
   } catch (err) {
     console.error(err);
     return {
       error: {
         code: 500,
-        message: "Error fetching rooms",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération des salles",
+        suggestion: "Rafraîchissez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifier que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to access active users",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour accéder aux utilisateurs actifs",
       },
     };
   }
 
-  const result: LiveUserList[] = [];
-  // Add active user info to list ready to return
+  const result: ListeUtilisateursEnLigne[] = [];
+  // Ajouter les informations des utilisateurs actifs à la liste prête à être retournée
   for (const [i, roomId] of documentIds.entries()) {
-    const { data } = currentActiveUsers[i];
+    const { data } = utilisateursActifsActuels[i];
     const users = data ?? [];
 
     result.push({

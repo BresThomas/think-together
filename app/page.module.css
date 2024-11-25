@@ -23,6 +23,11 @@
   font-size: var(--size-xl);
 }
 
+.heroImage {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-12);
+}
+
 .heroInfo {
   margin-bottom: var(--space-12);
 }

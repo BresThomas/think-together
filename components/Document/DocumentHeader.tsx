@@ -51,12 +51,12 @@ export function DocumentHeader({ documentId, className, ...props }: Props) {
         <ClientSideSuspense
           fallback={
             <Button icon={<ShareIcon />} disabled={true}>
-              Share
+              Partager
             </Button>
           }
         >
           <ShareDialog>
-            <Button icon={<ShareIcon />}>Share</Button>
+            <Button icon={<ShareIcon />}>Partager</Button>
           </ShareDialog>
         </ClientSideSuspense>
 

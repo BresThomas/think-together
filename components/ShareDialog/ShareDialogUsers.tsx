@@ -23,7 +23,7 @@ export function ShareDialogUsers({
   className,
   ...props
 }: Props) {
-  // Remove a collaborator from the room
+  // Supprimer un collaborateur de la salle
   async function handleRemoveDocumentUser(id: DocumentUser["id"]) {
     const { data, error } = await removeUserAccess({
       userId: id,
@@ -37,7 +37,7 @@ export function ShareDialogUsers({
     onSetUsers();
   }
 
-  // Update a collaborator in the room using email as user id
+  // Mettre à jour un collaborateur dans la salle en utilisant l'email comme identifiant utilisateur
   async function handleUpdateDocumentUser(
     id: DocumentUser["id"],
     access: DocumentAccess
@@ -77,15 +77,15 @@ export function ShareDialogUsers({
                       className={styles.rowRemoveButton}
                       onClick={() => handleRemoveDocumentUser(id)}
                     >
-                      Remove
+                      Supprimer
                     </button>
                   ) : (
-                    <span className={styles.rowDescription}>Owner</span>
+                    <span className={styles.rowDescription}>Propriétaire</span>
                   )}
                 </>
               ) : null}
               {isCurrentUser ? (
-                <span className={styles.rowDescription}>This is you</span>
+                <span className={styles.rowDescription}>C'est vous</span>
               ) : null}
             </div>
             {!isCurrentUser && id !== documentOwner ? (
@@ -96,15 +96,15 @@ export function ShareDialogUsers({
                   initialValue={access}
                   items={[
                     {
-                      title: "Can edit",
+                      title: "Peut modifier",
                       value: DocumentAccess.FULL,
                       description:
-                        "User can read, edit, and share the document",
+                        "L'utilisateur peut lire, modifier et partager le document",
                     },
                     {
-                      title: "Can read",
+                      title: "Peut lire",
                       value: DocumentAccess.READONLY,
-                      description: "User can only read the document",
+                      description: "L'utilisateur peut seulement lire le document",
                     },
                   ]}
                   onChange={(value) => {

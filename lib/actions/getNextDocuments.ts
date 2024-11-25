@@ -10,19 +10,19 @@ type Props = {
 };
 
 /**
- * Get Next Documents
+ * Obtenir les documents suivants
  *
- * Get the next set of documents using userId and nextPage.
- * nextPage can be retrieved from getDocumentsByGroup.ts
- * Uses custom API endpoint
+ * Obtenez le prochain ensemble de documents en utilisant userId et nextPage.
+ * nextPage peut être récupéré à partir de getDocumentsByGroup.ts
+ * Utilise un point de terminaison API personnalisé
  *
- * @param nextPage - nextPage, retrieved from getDocumentByGroup
+ * @param nextPage - nextPage, récupéré à partir de getDocumentByGroup
  */
 export async function getNextDocuments({ nextCursor }: Props) {
   let session;
   let getRoomsResponse;
   try {
-    // Get session and rooms
+    // Obtenez la session et les salles
     const result = await Promise.all([
       auth(),
       liveblocks.getRooms({ startingAfter: nextCursor }),
@@ -34,19 +34,19 @@ export async function getNextDocuments({ nextCursor }: Props) {
     return {
       error: {
         code: 500,
-        message: "Error fetching rooms",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération des salles",
+        suggestion: "Actualisez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifiez que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to get documents",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour obtenir des documents",
       },
     };
   }
@@ -57,13 +57,13 @@ export async function getNextDocuments({ nextCursor }: Props) {
     return {
       error: {
         code: 404,
-        message: "No more rooms found",
-        suggestion: "No more rooms to paginate",
+        message: "Aucune salle supplémentaire trouvée",
+        suggestion: "Plus de salles à paginer",
       },
     };
   }
 
-  // In case a room has changed, filter rooms the user no longer has access to
+  // Au cas où une salle aurait changé, filtrez les salles auxquelles l'utilisateur n'a plus accès
   const finalRooms = [];
   for (const room of rooms) {
     if (
@@ -78,7 +78,7 @@ export async function getNextDocuments({ nextCursor }: Props) {
     }
   }
 
-  // Convert to our document format and return
+  // Convertir au format de document et retourner
   const documents = buildDocuments(finalRooms);
   const result: GetDocumentsResponse = {
     documents: documents,

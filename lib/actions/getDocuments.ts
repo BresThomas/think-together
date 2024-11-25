@@ -23,16 +23,16 @@ export type GetDocumentsResponse = {
 };
 
 /**
- * Get Documents
+ * Obtenir des documents
  *
- * Get a list of documents by groupId, userId, and metadata
- * Uses custom API endpoint
+ * Obtenez une liste de documents par groupId, userId et métadonnées
+ * Utilise un point de terminaison API personnalisé
  *
- * @param groupIds - The groups to filter for
- * @param userId - The user to filter for
- * @param documentType - The document type to filter for
- * @param drafts - Get only drafts
- * @param limit - The amount of documents to retrieve
+ * @param groupIds - Les groupes à filtrer
+ * @param userId - L'utilisateur à filtrer
+ * @param documentType - Le type de document à filtrer
+ * @param drafts - Obtenir uniquement les brouillons
+ * @param limit - Le nombre de documents à récupérer
  */
 export async function getDocuments({
   groupIds = [],
@@ -41,7 +41,7 @@ export async function getDocuments({
   drafts = false,
   limit = 20,
 }: GetDocumentsProps) {
-  // Build getRooms arguments
+  // Construire les arguments getRooms
   let query: string | undefined = undefined;
 
   if (documentType) {
@@ -56,13 +56,13 @@ export async function getDocuments({
   const draftGroupName = getDraftsGroupName(userId || "");
 
   if (drafts) {
-    // Drafts are stored as a group that uses the userId
+    // Les brouillons sont stockés en tant que groupe utilisant l'userId
     getRoomsOptions = {
       ...getRoomsOptions,
       groupIds: [draftGroupName],
     };
   } else {
-    // Not a draft, use other info
+    // Pas un brouillon, utiliser d'autres informations
     getRoomsOptions = {
       ...getRoomsOptions,
       groupIds: groupIds.filter((id) => id !== draftGroupName),
@@ -73,7 +73,7 @@ export async function getDocuments({
   let session;
   let getRoomsResponse;
   try {
-    // Get session and rooms
+    // Obtenir la session et les rooms
     const result = await Promise.all([
       auth(),
       liveblocks.getRooms(getRoomsOptions),
@@ -85,19 +85,19 @@ export async function getDocuments({
     return {
       error: {
         code: 500,
-        message: "Error fetching rooms",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération des rooms",
+        suggestion: "Rafraîchissez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifier que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to get documents",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour obtenir des documents",
       },
     };
   }
@@ -108,13 +108,13 @@ export async function getDocuments({
     return {
       error: {
         code: 400,
-        message: "No rooms found",
-        suggestion: "Refresh the page and try again",
+        message: "Aucune room trouvée",
+        suggestion: "Rafraîchissez la page et réessayez",
       },
     };
   }
 
-  // In case a room has changed, filter rooms the user no longer has access to
+  // En cas de changement de room, filtrer les rooms auxquelles l'utilisateur n'a plus accès
   const finalRooms = [];
   for (const room of rooms) {
     if (
@@ -129,7 +129,7 @@ export async function getDocuments({
     }
   }
 
-  // Convert rooms to custom document format
+  // Convertir les rooms au format de document personnalisé
   const documents = buildDocuments(finalRooms);
   const result: GetDocumentsResponse = {
     documents,

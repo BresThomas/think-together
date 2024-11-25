@@ -101,7 +101,7 @@ export function DocumentsList({
       >
         <div className={styles.container}>
           <div className={styles.emptyState}>
-            <p>You don’t have access to these documents.</p>
+            <p>Vous n'avez pas accès à ces documents.</p>
           </div>
         </div>
       </Container>
@@ -117,7 +117,7 @@ export function DocumentsList({
       sideOffset={12}
     >
       <Button icon={<PlusIcon />}>
-        {group?.id ? "New document" : "New draft"}
+        {group?.id ? "Nouveau document" : "Nouveau brouillon"}
       </Button>
     </DocumentCreatePopover>
   );
@@ -136,10 +136,10 @@ export function DocumentsList({
           <Select
             initialValue="all"
             items={[
-              { value: "all", title: "All" },
-              { value: "text", title: "Text" },
-              { value: "whiteboard", title: "Whiteboard" },
-              { value: "spreadsheet", title: "Spreadsheet", disabled: true },
+              { value: "all", title: "Tous" },
+              { value: "text", title: "Texte" },
+              { value: "whiteboard", title: "Tableau blanc" },
+              { value: "spreadsheet", title: "Tableur", disabled: true },
             ]}
             onChange={(value: "all" | DocumentType) => {
               setDocumentType(value);
@@ -169,14 +169,14 @@ export function DocumentsList({
                     onClick={() => setSize(size + 1)}
                     icon={isLoadingMore ? <Spinner /> : null}
                   >
-                    {isLoadingMore ? "Loading…" : "Show more"}
+                    {isLoadingMore ? "Chargement…" : "Afficher plus"}
                   </Button>
                 </div>
               ) : null}
             </>
           ) : (
             <div className={styles.emptyState}>
-              <p>No documents yet.</p>
+              <p>Pas encore de documents.</p>
               {createDocumentButton}
             </div>
           )

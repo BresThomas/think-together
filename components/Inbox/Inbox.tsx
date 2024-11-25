@@ -26,7 +26,7 @@ function InboxContent(props: ComponentProps<"div">) {
     <div {...props}>
       {inboxNotifications.length === 0 ? (
         <div className={styles.emptyState}>
-          <p>There aren’t any notifications yet.</p>
+          <p>Il n'y a pas encore de notifications.</p>
         </div>
       ) : (
         <InboxNotificationList>
@@ -64,7 +64,7 @@ function AddedToDocumentNotification(
       {...props}
       title={
         <>
-          Added to <strong>{document.name}</strong>
+          Ajouté à <strong>{document.name}</strong>
         </>
       }
       aside={
@@ -73,10 +73,10 @@ function AddedToDocumentNotification(
         </div>
       }
     >
-      You’ve been granted access to a new document.
+      Vous avez reçu l'accès à un nouveau document.
       <div className={styles.addedToDocumentButton}>
         <LinkButton href={DOCUMENT_URL(document.type, document.id)}>
-          Go to document
+          Aller au document
         </LinkButton>
       </div>
     </InboxNotification.Custom>
@@ -91,7 +91,7 @@ export function Inbox({ className, ...props }: ComponentProps<"div">) {
       <div className={styles.inboxHeader}>
         <h2>Notifications</h2>
         <Button onClick={markAllInboxNotificationsAsRead}>
-          Mark all as read
+          Tout marquer comme lu
         </Button>
       </div>
       <ClientSideSuspense

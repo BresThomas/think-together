@@ -16,20 +16,20 @@ type Props = {
 };
 
 /**
- * Remove User Access
+ * Supprimer l'accès utilisateur
  *
- * Remove a user from a given document with their userId
- * Uses custom API endpoint
+ * Supprime un utilisateur d'un document donné avec son userId
+ * Utilise un point de terminaison API personnalisé
  *
- * @param userId - The id of the removed user
- * @param documentId - The document id
+ * @param userId - L'identifiant de l'utilisateur supprimé
+ * @param documentId - L'identifiant du document
  */
 export async function removeUserAccess({ userId, documentId }: Props) {
   let session;
   let room;
   let user;
   try {
-    // Get session and room
+    // Obtenir la session et la salle
     const result = await Promise.all([
       auth(),
       liveblocks.getRoom(documentId),
@@ -43,24 +43,24 @@ export async function removeUserAccess({ userId, documentId }: Props) {
     return {
       error: {
         code: 500,
-        message: "Error fetching document",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération du document",
+        suggestion: "Actualisez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifier que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to remove a user",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour supprimer un utilisateur",
       },
     };
   }
 
-  // Check current logged-in user is set as a user with id, ignoring groupIds and default access
+  // Vérifier que l'utilisateur connecté actuel est défini comme utilisateur avec id, en ignorant les groupIds et l'accès par défaut
   if (
     !userAllowedInRoom({
       accessAllowed: "write",
@@ -73,51 +73,51 @@ export async function removeUserAccess({ userId, documentId }: Props) {
     return {
       error: {
         code: 403,
-        message: "Not allowed access",
-        suggestion: "Check that you've been given permission to the document",
+        message: "Accès non autorisé",
+        suggestion: "Vérifiez que vous avez reçu la permission d'accéder au document",
       },
     };
   }
 
-  // Check the room `documentId` exists
+  // Vérifier que la salle `documentId` existe
   if (!room) {
     return {
       error: {
         code: 404,
-        message: "Document not found",
-        suggestion: "Check that you're on the correct page",
+        message: "Document non trouvé",
+        suggestion: "Vérifiez que vous êtes sur la bonne page",
       },
     };
   }
 
-  // Check user exists in system
+  // Vérifier que l'utilisateur existe dans le système
   if (!user) {
     return {
       error: {
         code: 400,
-        message: "User not found",
-        suggestion: "Check that you've used the correct user id",
+        message: "Utilisateur non trouvé",
+        suggestion: "Vérifiez que vous avez utilisé le bon identifiant utilisateur",
       },
     };
   }
 
-  // If user exists, check that they are not the owner
+  // Si l'utilisateur existe, vérifier qu'il n'est pas le propriétaire
   if (isUserDocumentOwner({ room, userId })) {
     return {
       error: {
         code: 400,
-        message: "User is owner",
-        suggestion: `User ${userId} is the document owner and cannot be edited`,
+        message: "L'utilisateur est propriétaire",
+        suggestion: `L'utilisateur ${userId} est le propriétaire du document et ne peut pas être modifié`,
       },
     };
   }
 
-  // If room exists, create userAccesses element for removing the current collaborator
+  // Si la salle existe, créer un élément userAccesses pour supprimer le collaborateur actuel
   const usersAccesses = {
     [userId]: null,
   };
 
-  // Send userAccesses to room and remove user
+  // Envoyer userAccesses à la salle et supprimer l'utilisateur
   let updatedRoom;
   try {
     updatedRoom = await liveblocks.updateRoom(documentId, {
@@ -127,8 +127,8 @@ export async function removeUserAccess({ userId, documentId }: Props) {
     return {
       error: {
         code: 401,
-        message: "Can't remove user from room",
-        suggestion: "Please refresh the page and try again",
+        message: "Impossible de supprimer l'utilisateur de la salle",
+        suggestion: "Veuillez actualiser la page et réessayer",
       },
     };
   }
@@ -137,8 +137,8 @@ export async function removeUserAccess({ userId, documentId }: Props) {
     return {
       error: {
         code: 404,
-        message: "Updated room not found",
-        suggestion: "Contact an administrator",
+        message: "Salle mise à jour non trouvée",
+        suggestion: "Contactez un administrateur",
       },
     };
   }

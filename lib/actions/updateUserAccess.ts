@@ -19,21 +19,21 @@ type Props = {
 };
 
 /**
- * Update User Access
+ * Mettre à jour l'accès utilisateur
  *
- * Add a collaborator to a given document with their userId
- * Uses custom API endpoint
+ * Ajouter un collaborateur à un document donné avec son userId
+ * Utilise un point de terminaison API personnalisé
  *
- * @param userId - The id of the invited user
- * @param documentId - The document id
- * @param access - The access level of the user
+ * @param userId - L'identifiant de l'utilisateur invité
+ * @param documentId - L'identifiant du document
+ * @param access - Le niveau d'accès de l'utilisateur
  */
 export async function updateUserAccess({ userId, documentId, access }: Props) {
   let session;
   let room;
   let user;
   try {
-    // Get session and room
+    // Obtenir la session et la salle
     const result = await Promise.all([
       auth(),
       liveblocks.getRoom(documentId),
@@ -47,24 +47,24 @@ export async function updateUserAccess({ userId, documentId, access }: Props) {
     return {
       error: {
         code: 500,
-        message: "Error fetching document",
-        suggestion: "Refresh the page and try again",
+        message: "Erreur lors de la récupération du document",
+        suggestion: "Rafraîchissez la page et réessayez",
       },
     };
   }
 
-  // Check user is logged in
+  // Vérifier que l'utilisateur est connecté
   if (!session) {
     return {
       error: {
         code: 401,
-        message: "Not signed in",
-        suggestion: "Sign in to remove a user",
+        message: "Non connecté",
+        suggestion: "Connectez-vous pour supprimer un utilisateur",
       },
     };
   }
 
-  // Check current logged-in user is set as a user with id, ignoring groupIds and default access
+  // Vérifier que l'utilisateur connecté actuel est défini comme utilisateur avec id, en ignorant les groupIds et l'accès par défaut
   if (
     !userAllowedInRoom({
       accessAllowed: "write",
@@ -77,48 +77,48 @@ export async function updateUserAccess({ userId, documentId, access }: Props) {
     return {
       error: {
         code: 403,
-        message: "Not allowed access",
-        suggestion: "Check that you've been given permission to the document",
+        message: "Accès non autorisé",
+        suggestion: "Vérifiez que vous avez reçu la permission d'accéder au document",
       },
     };
   }
 
-  // Check the room `documentId` exists
+  // Vérifier que la salle `documentId` existe
   if (!room) {
     return {
       error: {
         code: 404,
-        message: "Document not found",
-        suggestion: "Check that you're on the correct page",
+        message: "Document non trouvé",
+        suggestion: "Vérifiez que vous êtes sur la bonne page",
       },
     };
   }
 
   const document = await buildDocument(room);
 
-  // Check user exists in system
+  // Vérifier que l'utilisateur existe dans le système
   if (!user) {
     return {
       error: {
         code: 400,
-        message: "User not found",
-        suggestion: "Check that you've used the correct user id",
+        message: "Utilisateur non trouvé",
+        suggestion: "Vérifiez que vous avez utilisé le bon identifiant utilisateur",
       },
     };
   }
 
-  // If user exists, check that they are not the owner
+  // Si l'utilisateur existe, vérifier qu'il n'est pas le propriétaire
   if (isUserDocumentOwner({ room, userId })) {
     return {
       error: {
         code: 400,
-        message: "User is owner",
-        suggestion: `User ${userId} is the document owner and cannot be edited`,
+        message: "L'utilisateur est le propriétaire",
+        suggestion: `L'utilisateur ${userId} est le propriétaire du document et ne peut pas être modifié`,
       },
     };
   }
 
-  // If room exists, create userAccesses element for new collaborator with passed access level
+  // Si la salle existe, créer un élément userAccesses pour le nouveau collaborateur avec le niveau d'accès passé
   const userAccess = documentAccessToRoomAccesses(access);
   const usersAccesses: Record<
     string,
@@ -127,7 +127,7 @@ export async function updateUserAccess({ userId, documentId, access }: Props) {
     [userId]: userAccess.length === 0 ? null : userAccess,
   };
 
-  // Send userAccesses to room and remove user
+  // Envoyer userAccesses à la salle et supprimer l'utilisateur
   let updatedRoom;
   try {
     updatedRoom = await liveblocks.updateRoom(documentId, {
@@ -137,8 +137,8 @@ export async function updateUserAccess({ userId, documentId, access }: Props) {
     return {
       error: {
         code: 401,
-        message: "Can't remove user from room",
-        suggestion: "Please refresh the page and try again",
+        message: "Impossible de supprimer l'utilisateur de la salle",
+        suggestion: "Veuillez rafraîchir la page et réessayer",
       },
     };
   }
@@ -147,13 +147,13 @@ export async function updateUserAccess({ userId, documentId, access }: Props) {
     return {
       error: {
         code: 404,
-        message: "Updated room not found",
-        suggestion: "Contact an administrator",
+        message: "Salle mise à jour non trouvée",
+        suggestion: "Contactez un administrateur",
       },
     };
   }
 
-  // If the user previously had no access to document, send a notification saying they've been added
+  // Si l'utilisateur n'avait pas accès au document auparavant, envoyer une notification indiquant qu'il a été ajouté
   const previousAccessLevel = document.accesses.users[userId];
   if (!previousAccessLevel || previousAccessLevel === DocumentAccess.NONE) {
     liveblocks.triggerInboxNotification({

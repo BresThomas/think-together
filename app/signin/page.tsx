@@ -8,7 +8,7 @@ import styles from "./signin.module.css";
 export default async function SignInPage() {
   const session = await auth();
 
-  // If logged in, go to dashboard
+  // Si connecté, aller au tableau de bord
   if (session) {
     redirect(DASHBOARD_URL);
   }
@@ -18,7 +18,7 @@ export default async function SignInPage() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h2 className={styles.title}>Sign in to your account</h2>
+        <h2 className={styles.title}>Connectez-vous à votre compte</h2>
         {providers && providers.credentials ? (
           <DemoLogin />
         ) : (

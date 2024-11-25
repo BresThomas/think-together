@@ -24,7 +24,7 @@ export function MarketingHeader({
             await signIn();
           }}
         >
-          <Button icon={<SignInIcon />}>Sign in</Button>
+          <Button icon={<SignInIcon />}>Se connecter</Button>
         </form>
       </Container>
     </header>

@@ -22,7 +22,7 @@ export function DocumentCreatePopover({
 }: Props) {
   const [disableButtons, setDisableButtons] = useState(false);
 
-  // Create a new document, then navigate to the document's URL location
+  // Créer un nouveau document, puis naviguer vers l'emplacement URL du document
   async function createNewDocument(name: string, type: DocumentType) {
     setDisableButtons(true);
     const result = await createDocument(
@@ -36,7 +36,7 @@ export function DocumentCreatePopover({
       true
     );
 
-    // If this runs, there's an error and the redirect failed
+    // Si cela s'exécute, il y a une erreur et la redirection a échoué
     if (!result || result?.error || !result.data) {
       setDisableButtons(false);
       return;
@@ -50,32 +50,32 @@ export function DocumentCreatePopover({
           <Button
             icon={<PlusIcon />}
             onClick={() => {
-              createNewDocument("Untitled", "text");
+              createNewDocument("Sans titre", "text");
             }}
             variant="subtle"
             disabled={disableButtons}
           >
-            Text
+            Texte
           </Button>
           <Button
             icon={<PlusIcon />}
             onClick={() => {
-              createNewDocument("Untitled", "whiteboard");
+              createNewDocument("Sans titre", "whiteboard");
             }}
             variant="subtle"
             disabled={disableButtons}
           >
-            Whiteboard
+            Tableau blanc
           </Button>
           <Button
             disabled
             icon={<PlusIcon />}
             onClick={() => {
-              createNewDocument("Untitled", "spreadsheet");
+              createNewDocument("Sans titre", "spreadsheet");
             }}
             variant="subtle"
           >
-            Spreadsheet
+            Tableur
           </Button>
         </div>
       }

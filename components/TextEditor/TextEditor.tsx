@@ -36,13 +36,13 @@ export function TextEditor() {
   );
 }
 
-// Collaborative text editor with simple rich text and live cursors
+// Éditeur de texte collaboratif avec texte enrichi simple et curseurs en direct
 export function Editor() {
   const room = useRoom();
   const [doc, setDoc] = useState<Y.Doc>();
   const [provider, setProvider] = useState<any>();
 
-  // Set up Liveblocks Yjs provider
+  // Configurer le fournisseur Yjs de Liveblocks
   useEffect(() => {
     const yDoc = new Y.Doc();
     const yProvider = new LiveblocksYjsProvider(room, yDoc);
@@ -68,23 +68,23 @@ type EditorProps = {
 };
 
 function TiptapEditor({ doc, provider }: EditorProps) {
-  // Get user info from Liveblocks authentication endpoint
+  // Obtenir les informations de l'utilisateur à partir du point de terminaison d'authentification de Liveblocks
   const { name, color, avatar: picture } = useSelf((me) => me.info);
 
-  // Check if user has write access in current room
+  // Vérifier si l'utilisateur a des droits d'écriture dans la salle actuelle
   const canWrite = useSelf((me) => me.canWrite);
 
-  // Set up editor with plugins, and place user info into Yjs awareness and cursors
+  // Configurer l'éditeur avec des plugins et placer les informations de l'utilisateur dans la sensibilisation Yjs et les curseurs
   const editor = useEditor({
     editable: canWrite,
     editorProps: {
       attributes: {
-        // Add styles to editor element
+        // Ajouter des styles à l'élément de l'éditeur
         class: styles.editor,
       },
     },
     extensions: [
-      // Custom Liveblocks comments extension
+      // Extension de commentaires personnalisée de Liveblocks
       LiveblocksCommentsHighlight.configure({
         HTMLAttributes: {
           class: "comment-highlight",
@@ -114,7 +114,7 @@ function TiptapEditor({ doc, provider }: EditorProps) {
             class: "tiptap-heading",
           },
         },
-        // The Collaboration extension comes with its own history handling
+        // L'extension Collaboration gère son propre historique
         history: false,
         horizontalRule: {
           HTMLAttributes: {
@@ -154,7 +154,7 @@ function TiptapEditor({ doc, provider }: EditorProps) {
         },
       }),
       Placeholder.configure({
-        placeholder: "Start writing…",
+        placeholder: "Commencez à écrire…",
         emptyEditorClass: "tiptap-empty",
       }),
       CustomTaskItem,
@@ -173,11 +173,11 @@ function TiptapEditor({ doc, provider }: EditorProps) {
           class: "tiptap-youtube",
         },
       }),
-      // Register the document with Tiptap
+      // Enregistrer le document avec Tiptap
       Collaboration.configure({
         document: doc,
       }),
-      // Attach provider and user info
+      // Attacher le fournisseur et les informations de l'utilisateur
       CollaborationCursor.configure({
         provider: provider,
         user: {
@@ -218,7 +218,7 @@ function TiptapEditor({ doc, provider }: EditorProps) {
   );
 }
 
-// Prevents a matchesNode error on hot reloading
+// Empêche une erreur matchesNode lors du rechargement à chaud
 EditorView.prototype.updateState = function updateState(state) {
   // @ts-ignore
   if (!this.docView) return;

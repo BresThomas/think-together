@@ -115,7 +115,7 @@ export function ShareDialogDefault({
           htmlFor="public-read-checkbox"
         >
           <LinkIcon className={styles.sectionLabelIcon} />
-          <span>Enable public share link</span>
+          <span>Activer le lien de partage public</span>
         </label>
         <div className={styles.sectionAction}>
           {isPublicReadLoading ? (
@@ -141,7 +141,7 @@ export function ShareDialogDefault({
               htmlFor="public-edit-checkbox"
             >
               <EditIcon className={styles.sectionLabelIcon} />
-              <span> Allow anyone to edit</span>
+              <span>Permettre à tout le monde de modifier</span>
             </label>
             <div className={styles.sectionAction}>
               {isPublicEditLoading ? (
@@ -169,7 +169,7 @@ export function ShareDialogDefault({
               icon={copiedToClipboard ? <CheckIcon /> : <CopyIcon />}
               onClick={handleCopyToClipboard}
             >
-              Copy
+              Copier
             </Button>
           </div>
         </>

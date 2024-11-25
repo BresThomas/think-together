@@ -54,18 +54,18 @@ export function DashboardSidebar({ className, groups, ...props }: Props) {
           <ul className={styles.list}>
             <li>
               <SidebarLink href={DASHBOARD_URL} icon={<FileIcon />}>
-                All
+                Tout
               </SidebarLink>
             </li>
             <li>
               <SidebarLink href={DASHBOARD_DRAFTS_URL} icon={<FileIcon />}>
-                Drafts
+                Brouillons
               </SidebarLink>
             </li>
           </ul>
         </div>
         <div className={styles.category}>
-          <span className={styles.categoryTitle}>Groups</span>
+          <span className={styles.categoryTitle}>Groupes</span>
           <ul className={styles.list}>
             {groups.map((group) => {
               return (

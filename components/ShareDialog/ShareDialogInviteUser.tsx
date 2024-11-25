@@ -24,7 +24,7 @@ export function ShareDialogInviteUser({
   const [isInviteLoading, setInviteLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  // Add a user to the room using email as user id
+  // Ajouter un utilisateur au document en utilisant l'email comme identifiant
   async function handleAddDocumentUser(id: DocumentUser["id"]) {
     setErrorMessage(undefined);
     setInviteLoading(true);
@@ -61,7 +61,7 @@ export function ShareDialogInviteUser({
               className={styles.inviteInput}
               disabled={isInviteLoading}
               name="userId"
-              placeholder="Email address"
+              placeholder="Adresse e-mail"
               required
               type="email"
             />
@@ -70,7 +70,7 @@ export function ShareDialogInviteUser({
               disabled={isInviteLoading}
               icon={isInviteLoading ? <Spinner /> : <PlusIcon />}
             >
-              Invite
+              Inviter
             </Button>
           </form>
           {errorMessage && (
@@ -81,7 +81,7 @@ export function ShareDialogInviteUser({
         </>
       ) : (
         <div className={styles.error}>
-          You need full access to invite others.
+          Vous avez besoin d'un accès complet pour inviter d'autres personnes.
         </div>
       )}
     </div>

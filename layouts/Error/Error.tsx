@@ -22,9 +22,9 @@ export function ErrorLayout({ error, className, ...props }: Props) {
       ) : null}
       <div className={styles.actions}>
         {session ? (
-          <LinkButton href="/">Go to dashboard</LinkButton>
+          <LinkButton href="/">Aller au tableau de bord</LinkButton>
         ) : (
-          <Button onClick={() => signIn()}>Sign in</Button>
+          <Button onClick={() => signIn()}>Se connecter</Button>
         )}
       </div>
     </main>
