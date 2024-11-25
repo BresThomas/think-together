@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["liveblocks.io"],
+    domains: ["liveblocks.io", "https://github.com/BresThomas/"],
   },
 };

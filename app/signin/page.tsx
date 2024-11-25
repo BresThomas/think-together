@@ -25,7 +25,7 @@ export default async function SignInPage() {
           <NextAuthLogin providers={providers} />
         )}
       </main>
-      <aside className={styles.aside} />
+      {/* <aside className={styles.aside} /> */}
     </div>
   );
 }

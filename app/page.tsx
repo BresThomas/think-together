@@ -35,15 +35,17 @@ export default async function Index() {
     <MarketingLayout>
       <Container className={styles.section}>
         <div className={styles.heroInfo}>
-          <h1 className={styles.heroTitle}>
-          Collaborez et innovez ensemble.
-          </h1>
-          <p className={styles.heroLead}>
-          ThinkTogether est une plateforme de collaboration intuitive qui facilite le brainstorming en équipe. Travaillez sur vos idées en temps réel, où que vous soyez.
-          </p>
+          <div className={styles.divHero}>
+            <h1 className={styles.heroTitle}>
+            Collaborez et innovez ensemble.
+            </h1>
+            <p className={styles.heroLead}>
+            ThinkTogether est une plateforme de collaboration intuitive qui facilite le brainstorming en équipe. Travaillez sur vos idées en temps réel, où que vous soyez.
+            </p>
+          </div>
           <div className={styles.heroImage}>
             <img
-              src="../image.png"
+              src="https://github.com/BresThomas/think-together/blob/main/image.png?raw=true"
               alt="Illustration de ThinkTogether"
               className={styles.heroImageElement}
             />

@@ -28,7 +28,21 @@
   margin-bottom: var(--space-12);
 }
 
+.heroImageElement {
+  width: 120%;
+  right: 0;
+}
+
+.divHero {
+  width: 100%;
+  left: 0;
+}
+
 .heroInfo {
+  display: flex;
+  width: 120%;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-12);
 }
 
